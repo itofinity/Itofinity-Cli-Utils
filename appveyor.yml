@@ -50,23 +50,21 @@ on_success:
   - ps : .\appveyor-tag-repository.ps1
 
 deploy:
-  release: apv-cli-v$(APPVEYOR_BUILD_VERSION)-$(configuration)
-  description: 'Cli Utils Release'
-  provider: GitHub
-  auth_token:
-    secure: /GXo1m4yXO8eIbjXBMBOVkC5d05AvG0/+03CmoHZBlsoPp3mnSwDXKLA6CpKNAs3 # your encrypted token from GitHub
-  artifact: /.*\.nupkg/
-  draft: false
-  prerelease: FALSE
-  on:
-    branch: master                 # release from master branch only
-
-deploy:
-  provider: NuGet
-  api_key:
-    secure: Fe8DovER/ifKSdkuY/3mRvX1nf+ZCtnJhw0i0C8LEdrdndFZO9sMsp3zMlK+cTql
-  skip_symbols: false
-  artifact: /.*\.nupkg/
+  - provider: GitHub
+    release: apv-cli-v$(APPVEYOR_BUILD_VERSION)-$(configuration)
+    description: 'Cli Utils Release'
+    auth_token:
+      secure: /GXo1m4yXO8eIbjXBMBOVkC5d05AvG0/+03CmoHZBlsoPp3mnSwDXKLA6CpKNAs3 # your encrypted token from GitHub
+    artifact: /.*\.nupkg/
+    draft: false
+    prerelease: FALSE
+    on:
+      branch: master                 # release from master branch only
+  - provider: NuGet
+    api_key:
+      secure: Fe8DovER/ifKSdkuY/3mRvX1nf+ZCtnJhw0i0C8LEdrdndFZO9sMsp3zMlK+cTql
+    skip_symbols: false
+    artifact: /.*\.nupkg/
 
 #on_finish:
 #  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
