@@ -1,0 +1,68 @@
+version: '0.1.{build}'
+
+clone_depth: 10
+
+environment:
+    GitEmail: ci@appveyor.com
+    GitAuthor: ci
+    GitUsername: mminns
+    GitPassword: 
+      secure: /GXo1m4yXO8eIbjXBMBOVkC5d05AvG0/+03CmoHZBlsoPp3mnSwDXKLA6CpKNAs3
+init:
+  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+
+skip_tags: true
+
+skip_commits:
+  author: ci
+
+configuration:
+  - Release
+
+image: Visual Studio 2017
+
+before_build:
+  - dotnet restore
+
+assembly_info:
+  patch: true
+  file: SharedAssemblyInfo.cs
+  assembly_version: '{version}'
+  assembly_file_version: '{version}'
+  assembly_informational_version: '{version}-{branch}'
+
+build_script:
+  - ps: |
+      dotnet build -c release "Itofinity.Cli.Utils.sln"
+      dotnet pack -c release  -p:PackageVersion=$env:APPVEYOR_BUILD_VERSION
+
+after_build:
+  - cmd: .\utils\publish.cmd
+
+artifacts:
+  - path: '**\*$(APPVEYOR_BUILD_VERSION).nupkg'
+
+
+cache:
+  - packages -> **\packages.config
+
+matrix:
+  fast_finish: true
+
+on_success:
+  - ps : .\appveyor-tag-repository.ps1
+
+deploy:
+  release: apv-cli-v$(APPVEYOR_BUILD_VERSION)-$(configuration)
+  description: 'Cli Utils Release'
+  provider: GitHub
+  auth_token:
+    secure: /GXo1m4yXO8eIbjXBMBOVkC5d05AvG0/+03CmoHZBlsoPp3mnSwDXKLA6CpKNAs3 # your encrypted token from GitHub
+  artifact: /.*\.nupkg/
+  draft: false
+  prerelease: FALSE
+  on:
+    branch: master                 # release from master branch only
+
+#on_finish:
+#  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
