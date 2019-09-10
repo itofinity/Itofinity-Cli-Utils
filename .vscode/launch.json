@@ -1,0 +1,106 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Example App --help",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/src/itofinity.commandline.utilities.example/bin/${input:configuration}/netcoreapp2.1/itofinity.commandline.utilities.example.dll",
+            "args": [
+                "--help"
+            ],
+            "cwd": "${workspaceFolder}",
+            "stopAtEntry": false,
+            "console": "internalConsole"
+        },
+        {
+            "name": "Example App <command>",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/src/itofinity.commandline.utilities.example/bin/${input:configuration}/netcoreapp2.1/itofinity.commandline.utilities.example.dll",
+            "args": [
+                "${input:command}"
+            ],
+            "cwd": "${workspaceFolder}",
+            "stopAtEntry": false,
+            "console": "internalConsole"
+        },
+        {
+            "name": "Example App --version",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/src/itofinity.commandline.utilities.example/bin/${input:configuration}/netcoreapp2.1/itofinity.commandline.utilities.example.dll",
+            "args": [
+                "--version"
+            ],
+            "cwd": "${workspaceFolder}",
+            "stopAtEntry": false,
+            "console": "internalConsole"
+        },
+        {
+            "name": "Sample App (log to console)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/src/${input:projectName}/bin/${input:configuration}/netcoreapp2.1/${input:projectName}.dll",
+            "args": [
+                "-v", 
+                "Error",
+                "echo",
+                "--help"
+            ],
+            "cwd": "${workspaceFolder}",
+            "stopAtEntry": false,
+            "console": "internalConsole"
+        },
+
+        {
+            "name": "Sample App (log to file)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/src/${input:projectName}/bin/${input:configuration}/netcoreapp2.1/${input:projectName}.dll",
+            "args": [
+                "-v",
+                "Error",
+                "-l",
+                "src/${input:projectName}/bin/${input:configuration}/netcoreapp2.1/{input:projectName}.log"
+            ],
+            "cwd": "${workspaceFolder}",
+            "stopAtEntry": false,
+            "console": "internalConsole"
+        },
+        {
+            "name": ".NET Core Attach",
+            "type": "coreclr",
+            "request": "attach",
+            "processId": "${command:pickProcess}"
+        }
+    ],
+    "inputs": [
+        {
+            "id": "projectName",
+            "description": "target project",
+            "default": "enter the path to the project root",
+            "type": "promptString"
+        },
+        {
+            "id": "configuration",
+            "description": "build configuration",
+            "default": "debug",
+            "type": "promptString"
+        },
+        {
+            "id": "command",
+            "description": "example app command",
+            "default": "echo",
+            "type": "promptString"
+        },
+    ]
+}
