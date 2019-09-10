@@ -15,19 +15,21 @@ steps:
 - task: DotNetCoreCLI@2
   inputs:
     command: restore
-    projects: '**/*.csproj'
+    projects: '**/*.sln'
 - task: DotNetCoreCLI@2
   displayName: Build
   inputs:
     command: build
-    projects: '**/*.csproj'
+    projects: '**/*.sln'
     arguments: '--configuration $(buildConfiguration)' # Update this to match your need
 - task: DotNetCoreCLI@2
+  displayName: Test
   inputs:
     command: test
-    projects: '**/*Tests/*.csproj'
+    projects: '**/*Test/*.csproj'
     arguments: '--configuration $(buildConfiguration) --collect "Code coverage"'
 - task: PublishBuildArtifacts@1
+  displayName: Publish
   inputs:
     pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
     artifactName: 'AbCd'
