@@ -28,6 +28,11 @@ steps:
     command: test
     projects: '**/*Test/*.csproj'
     arguments: '--configuration $(buildConfiguration) --collect "Code coverage"'
+- task: DotNetCoreCLI@2
+  displayName: Pack
+  inputs:
+    command: pack
+    packDirectory: '$(Build.ArtifactStagingDirectory)/packages'
 - task: PublishBuildArtifacts@1
   displayName: Publish
   inputs:
