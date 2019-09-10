@@ -32,7 +32,6 @@ steps:
   displayName: Pack
   inputs:
     command: pack
-    packDirectory: '$(Build.ArtifactStagingDirectory)/packages'
 - task: PublishBuildArtifacts@1
   displayName: Publish
   inputs:
