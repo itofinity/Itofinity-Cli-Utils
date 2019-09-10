@@ -1,0 +1,118 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "command": "dotnet build /property:GenerateFullPaths=true -c ${input:configuration}",
+            "type": "shell",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "silent"
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "add package dependency",
+            "command": "dotnet add ${input:project} package ${input:dependency}",
+            "type": "shell",
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "add project reference dependency",
+            "command": "dotnet add ${input:project} reference ${input:dependency}",
+            "type": "shell",
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "pack",
+            "command": "dotnet pack /property:GenerateFullPaths=true -c ${input:configuration}",
+            "type": "shell",
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "publish",
+            "command": "dotnet publish -r ${input:runtime} -f ${input:framework} -c ${input:configuration} /property:GenerateFullPaths=true",
+            "type": "shell",
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "new project",
+            "command": "dotnet new ${input:new-type} -n ${input:new-name} -o ${input:output} /property:GenerateFullPaths=true",
+            "type": "shell",
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "sln add",
+            "command": "dotnet sln ${input:solutionfile} add ${input:project}",
+            "type": "shell",
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "sln add",
+            "command": "dotnet sln ${input:solutionfile} add ${input:projectpath}",
+            "type": "shell",
+            "problemMatcher": "$msCompile"
+        },
+    ],
+    "inputs": [
+        {
+            "id": "runtime",
+            "description": "target runtime",
+            "default": "osx-x64",
+            "type": "promptString"
+        },
+        {
+            "id": "framework",
+            "description": "target framework",
+            "default": "netcoreapp2.1",
+            "type": "promptString"
+        },
+        {
+            "id": "dependency",
+            "description": "add the following dependency",
+            "default": "unknown",
+            "type": "promptString"
+        },
+        {
+            "id": "project",
+            "description": "target project",
+            "default": "enter the path to the csproj file",
+            "type": "promptString"
+        },
+        {
+            "id": "configuration",
+            "description": "build configuration",
+            "default": "debug",
+            "type": "promptString"
+        },
+        {
+            "id": "new-type",
+            "description": "new name",
+            "default": "enter the project type, e.g. console",
+            "type": "promptString"
+        },
+        {
+            "id": "new-name",
+            "description": "name of the new item",
+            "default": "enter the name of the new item",
+            "type": "promptString"
+        },
+        {
+            "id": "output",
+            "description": "output path",
+            "default": "enter the output path",
+            "type": "promptString"
+        },
+        {
+            "id": "solutionfile",
+            "description": "solution file",
+            "default": "enter path of the solution file",
+            "type": "promptString"
+        },
+    ]
+}
